@@ -56,13 +56,13 @@ ul {
     colot: red;
 }
 
-li a {
+.container li a {
     margin-top: 20px;
     color: red;
     text-decoration: none;
 }
 
-li a:hover {
+.container li a:hover {
 
     color: yellow;
 }
