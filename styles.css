@@ -45,14 +45,16 @@ section, footer, header{
 }
 
 .container {
-    color: white;
+    color: yellow;
     font-family: Verdana, sans-serif;
     font-size: 20px;
-    margin: 35px;
+    margin: 55px;
+    margin-left: 12%;
 }
 
-ul {
-    margin: 50px;
+ol {
+    margin-top: 50px;
+    margin-left: 30px;
     colot: red;
 }
 
@@ -64,7 +66,7 @@ ul {
 
 .container li a:hover {
 
-    color: yellow;
+    color: white;
 }
 
 /*----------------------------
