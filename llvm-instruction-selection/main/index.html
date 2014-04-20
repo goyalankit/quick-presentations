@@ -32,10 +32,31 @@
 </div>
       <div class='step' >
     
+<h1>Removing instructions</h1>
+</div>
+      <div class='step' >
+    
 <h4>eraseFromParent()</h4>
 
 <p><code class='inline prettyprint'>llvm/lib/CodeGen/CodeGenPrepare.cpp</code></p>
 
+<p>// Build a truncate instruction.</p>
+
+<p>truncation due to casting may lead to deletion of original instruction.
+it has an undo method, which erases the instruction</p>
+
+<p>Codegen preparation. Common to all architectures.
+We may loose instruction information here.</p>
+<pre><code class='prettyprint '>// OptimizeCmpExpression - sink the given CmpInst 
+// into user blocks to reduce
+// the number of virtual reduce registers
+// that must be created and
+
+OptimizeCmpExpression(CmpInst *CI) {}
+
+</code></pre></div>
+      <div class='step' >
+    
       </div>
     <script src="js/impress.js"></script>
     <script>impress().init();</script>
