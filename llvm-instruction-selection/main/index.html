@@ -33,6 +33,8 @@
       <div class='step' >
     
 <h1>Removing instructions</h1>
+
+<h2>Target Independent</h2>
 </div>
       <div class='step' >
     
@@ -54,6 +56,43 @@ We may loose instruction information here.</p>
 
 OptimizeCmpExpression(CmpInst *CI) {}
 
+</code></pre></div>
+      <div class='step' >
+    <pre><code class='prettyprint '>OptimizeNoopCopyExpression - 
+if the specified cast instruction is Noop copy 
+(e.g, copy from one pointer type to another, i32->i8)
+Also adds another 
+
+</code></pre></div>
+      <div class='step' >
+    
+<h4>CodeGenPrepare::DupRetToEnableTailCallOpts(BasicBlock *BB)</h4>
+
+<p>Look for opportunities to duplicate return
+ instructions to the predecessor to enable tail call optimizations. </p>
+<pre><code class='prettyprint asm'>/// bb0:
+///   %tmp0 = tail call i32 @f0()
+///   br label %return
+/// bb1:
+///   %tmp1 = tail call i32 @f1()
+///   br label %return
+/// return:
+///   %retval = phi i32 [ %tmp0, %bb0 ], [ %tmp1, %bb1 ], [ %tmp2, %bb2 ]
+///   ret i32 %retval
+
+/// bb0:
+///   %tmp0 = tail call i32 @f0()
+///   ret i32 %tmp0
+/// bb1:
+///   %tmp1 = tail call i32 @f1()
+///   ret i32 %tmp1
+
+</code></pre></div>
+      <div class='step' >
+    
+<h4>CodeGenPrepare::DupRetToEnableTailCallOpts(BasicBlock *BB)</h4>
+<pre><code class='prettyprint '>// Duplicate the return into CallBB.
+    (void)FoldReturnIntoUncondBranch(RI, BB, CallBB);
 </code></pre></div>
       <div class='step' >
     
