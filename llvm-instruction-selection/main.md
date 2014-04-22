@@ -1,6 +1,12 @@
 
 #### Conversion from Instruction to MachineInstruction
 
+
+---
+
+IR -> SelectionDag -> X86TargetLowering -> SelectionDAGISel(manual
+implementation) || X86FastIsel ->  
+
 ---
 
 # Removing instructions
@@ -94,6 +100,7 @@ class SExtBuilder : public TypePromotionAction {}
 ---
 
 // a = b==b ? 2 : 3 -> if(b==b) 2 else 3
+
 ```
 CodeGenPrepare::OptimizeSelectInst(SelectInst *SI) {}
 ```
@@ -137,8 +144,10 @@ This transformation may potentially interfere with that.
 ---
 
 ### optimizeCompareInstr
-
+```
 Check if an instruction already performs the same compare.
+```
+
 ---
 
 ### optimizeLoadInstr
@@ -154,4 +163,52 @@ This may effect the instrumentation
 // effects.
 ```
 ---
+
+X86ISelLowering.cpp
+---
+
+MachineBasicBlock \*EmitXBegin;
+
+```
+// Utility function to emit xbegin specifying the start of an RTM region
+// RTM - restricted transactional memory
+
+
+deletes the previous instruction to insert 
+```
+
+
+I don't think what's the point of intrumenting some instructions.
+
+---
+
+```
+EmitAtomicLoadArith - emit the code sequence for pseudo atomic
+instructions.
+
+EmitAtomicLoadArith6432
+
+```
+
+---
+
+```
+
+EmitPCMPSTRM
+
+
+// When we get size specific XMM0 registers, i.e. XMM0_V16I8
+// or XMM0_V32I8 in AVX all of this code can be replaced withth
+// that
+// in the .td file.file
+
+```
+
+---
+
+```
+
+
+```
+
 
