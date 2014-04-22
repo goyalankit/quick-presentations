@@ -92,7 +92,77 @@ Also adds another
     
 <h4>CodeGenPrepare::DupRetToEnableTailCallOpts(BasicBlock *BB)</h4>
 <pre><code class='prettyprint '>// Duplicate the return into CallBB.
-    (void)FoldReturnIntoUncondBranch(RI, BB, CallBB);
+(void)FoldReturnIntoUncondBranch(RI, BB, CallBB);
+</code></pre></div>
+      <div class='step' >
+    
+<h4>TypePromotion</h4>
+
+<p>creates a truncated instruction</p>
+<pre><code class='prettyprint '>TruncBuilder(Instruction *Opnd, Type *Ty) : TypePromotionAction(Opnd) {}
+
+</code></pre></div>
+      <div class='step' >
+    <pre><code class='prettyprint '>class SExtBuilder : public TypePromotionAction {}
+</code></pre></div>
+      <div class='step' >
+    
+<p>// a = b==b ? 2 : 3 -&gt; if(b==b) 2 else 3
+```
+CodeGenPrepare::OptimizeSelectInst(SelectInst *SI) {}</p>
+
+<h2>```</h2>
+
+<p>// Some targets have expensive vector shifts if the lanes aren&#39;t all
+the same
+// (e.g. x86 only introduced &quot;vpsllvd&quot; and friends with AVX2). In
+these cases
+// it&#39;s often worth sinking a ShuffleVectorInstr splat down to its
+use so that
+// codegen can spot all lanes aren identical.</p>
+<pre><code class='prettyprint '>bool CodeGenPrepare::OptimizeShuffleVectorInst(ShuffleVectorInst *SVI) {}
+</code></pre></div>
+      <div class='step' >
+    
+<h3>X86/X86FastISel.cpp</h3>
+</div>
+      <div class='step' >
+    
+<p>X86InstrInfo.cpp</p>
+</div>
+      <div class='step' >
+    
+<p>bool X86InstrInfo::AnalyzeBranch{}</p>
+
+<p>Two eraseFromParent: 
+1. If the block has any instructions after a JMP, delete them. =&gt; dead code.
+2. Delete the JMP if it&#39;s equivalent to a fall-through. //jmp not required.</p>
+
+<p>Question: can we even instrument this.</p>
+
+<p>only modifies jump instructions which can&#39;t even</p>
+
+<p>jCC L1
+jmp L2</p>
+
+<p>we could also instrument how many times a particular branch is taken.
+This transformation may potentially interfere with that.</p>
+</div>
+      <div class='step' >
+    
+<h3>optimizeCompareInstr</h3>
+
+<h2>Check if an instruction already performs the same compare.</h2>
+
+<h3>optimizeLoadInstr</h3>
+
+<p>This may effect the instrumentation</p>
+<pre><code class='prettyprint '>// Try to remove the load by folding it to a register
+// operand at  the use. We fold the load instructions if load
+// defines a virtual
+// register, the virtual register is used once in the same BB,
+// instructions in-between do not load or store, and have no side
+// effects.
 </code></pre></div>
       <div class='step' >
     
