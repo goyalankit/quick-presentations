@@ -4,9 +4,14 @@
 
 ---
 
-IR -> SelectionDag -> X86TargetLowering -> SelectionDAGISel(manual
-implementation) || X86FastIsel ->  
-
+```
+IR -> SelectionDag -> X86TargetLowering [legalize dag operations w.r.t
+target ] -> SelectionDAGISel(manual
+implementation) || X86FastIsel ->
+InstrEmitter:EmitMachineNode[ emit MachineInstructions ] ->
+X86DAGToDAGISel::Select[ Register Allocation] ->
+X86AsmPrinter::EmitInstruction
+```
 ---
 
 # Removing instructions
@@ -195,7 +200,6 @@ EmitAtomicLoadArith6432
 ```
 
 EmitPCMPSTRM
-
 
 // When we get size specific XMM0 registers, i.e. XMM0_V16I8
 // or XMM0_V32I8 in AVX all of this code can be replaced withth
