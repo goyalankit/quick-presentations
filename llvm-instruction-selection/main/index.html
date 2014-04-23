@@ -31,6 +31,14 @@
 <h4>Conversion from Instruction to MachineInstruction</h4>
 </div>
       <div class='step' >
+    <pre><code class='prettyprint '>IR -> SelectionDag -> X86TargetLowering [legalize dag operations w.r.t
+target ] -> SelectionDAGISel(manual
+implementation) || X86FastIsel ->
+InstrEmitter:EmitMachineNode[ emit MachineInstructions ] ->
+X86DAGToDAGISel::Select[ Register Allocation] ->
+X86AsmPrinter::EmitInstruction
+</code></pre></div>
+      <div class='step' >
     
 <h1>Removing instructions</h1>
 
@@ -107,12 +115,11 @@ Also adds another
 </code></pre></div>
       <div class='step' >
     
-<p>// a = b==b ? 2 : 3 -&gt; if(b==b) 2 else 3
-```
-CodeGenPrepare::OptimizeSelectInst(SelectInst *SI) {}</p>
-
-<h2>```</h2>
-
+<p>// a = b==b ? 2 : 3 -&gt; if(b==b) 2 else 3</p>
+<pre><code class='prettyprint '>CodeGenPrepare::OptimizeSelectInst(SelectInst *SI) {}
+</code></pre></div>
+      <div class='step' >
+    
 <p>// Some targets have expensive vector shifts if the lanes aren&#39;t all
 the same
 // (e.g. x86 only introduced &quot;vpsllvd&quot; and friends with AVX2). In
@@ -151,9 +158,10 @@ This transformation may potentially interfere with that.</p>
       <div class='step' >
     
 <h3>optimizeCompareInstr</h3>
-
-<h2>Check if an instruction already performs the same compare.</h2>
-
+<pre><code class='prettyprint '>Check if an instruction already performs the same compare.
+</code></pre></div>
+      <div class='step' >
+    
 <h3>optimizeLoadInstr</h3>
 
 <p>This may effect the instrumentation</p>
@@ -166,6 +174,38 @@ This transformation may potentially interfere with that.</p>
 </code></pre></div>
       <div class='step' >
     
+<h2>X86ISelLowering.cpp</h2>
+
+<p>MachineBasicBlock *EmitXBegin;</p>
+<pre><code class='prettyprint '>// Utility function to emit xbegin specifying the start of an RTM region
+// RTM - restricted transactional memory
+
+
+deletes the previous instruction to insert 
+</code></pre>
+<p>I don&#39;t think what&#39;s the point of intrumenting some instructions.</p>
+</div>
+      <div class='step' >
+    <pre><code class='prettyprint '>EmitAtomicLoadArith - emit the code sequence for pseudo atomic
+instructions.
+
+EmitAtomicLoadArith6432
+
+</code></pre></div>
+      <div class='step' >
+    <pre><code class='prettyprint '>
+EmitPCMPSTRM
+
+// When we get size specific XMM0 registers, i.e. XMM0_V16I8
+// or XMM0_V32I8 in AVX all of this code can be replaced withth
+// that
+// in the .td file.file
+
+</code></pre></div>
+      <div class='step' >
+    <pre><code class='prettyprint '>
+
+</code></pre>
       </div>
     <script src="js/impress.js"></script>
     <script>impress().init();</script>
