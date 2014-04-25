@@ -16,7 +16,7 @@
 
 html{
 	/* This image will be displayed fullscreen */
-	background:url('background.jpg') no-repeat center center;
+	/*background:url('background.jpg') no-repeat center center;*/
 	
 	/* Ensure the html element always takes up the full height of the browser window */
 	min-height:100%;
@@ -45,8 +45,9 @@ section, footer, header{
 }
 
 .container {
-    color: yellow;
-    font-family: Verdana, sans-serif;
+    color: 000;
+    font-family: Courier;
+    /*font-family: Verdana, sans-serif;*/
     font-size: 20px;
     margin: 55px;
     margin-left: 12%;
@@ -55,25 +56,37 @@ section, footer, header{
 ol {
     margin-top: 50px;
     margin-left: 30px;
-    colot: red;
 }
 
 .container li a {
     margin-top: 20px;
-    color: red;
-    text-decoration: none;
+    left: 60px;
+    font-size: 14px;
+    color: #000;
+    /*text-decoration: none;*/
 }
 
 .container li a:hover {
+    color: #666;
+}
 
-    color: white;
+footer{
+    position: absolute;
+    margin-top: 10%;
+    margin-left: 11%;
+    font-family: Courier;
+}
+
+footer a{
+
+    text-decoration: none;
 }
 
 /*----------------------------
 	The Footer
 -----------------------------*/
 
-
+/*
 footer{
 	background-color: #111111;
 	bottom: 0;
@@ -120,3 +133,4 @@ footer a i b{
 	color:#c92020;
 	font-weight: normal;
 }
+ */
