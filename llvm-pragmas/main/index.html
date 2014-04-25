@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <link href="css/reset.css" rel="stylesheet" />
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,800italic,300,400,800' rel='stylesheet' type='text/css'>    
+
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h2>Pragmas in LLVM</h2>
+</div>
+      <div class='step' >
+    
+<p>Files related to pragmas</p>
+
+<ol>
+<li>llvm/tools/clang/lib/Parse/ParsePragma.cpp</li>
+<li>llvm/tools/clang/lib/Sema/SemaAttr.cpp</li>
+</ol>
+</div>
+      <div class='step' >
+    
+<p>llvm/tools/clang/lib/Parse/ParsePragma.cpp</p>
+
+<ol>
+<li><p>defines a custom struct for each pragma that inherits <code class='inline prettyprint'>PragmaHandler</code> and implements a virtual method <code class='inline prettyprint'>HandlePragma()</code> that checks the syntax of pragma</p></li>
+<li><p>defines <code class='inline prettyprint'>Pragma::handlePragmaCustom()</code> that is called while parsing
+the statements. declared in <code class='inline prettyprint'>pragma.h</code> that calls the Sem method for
+semantic check</p></li>
+</ol>
+</div>
+      <div class='step' >
+    
+<h2>Example</h2>
+
+<p>#pragma unused(id)</p>
+</div>
+      <div class='step' >
+    
+<p><code class='inline prettyprint'>llvm/tools/clang/lib/Parse/ParsePragma.cpp</code> contains various examples.</p>
+<pre><code class='prettyprint '>// inherit ProgmaHandler and implement virtual method
+struct PragmaUnusedHandler : public PragmaHandler {
+
+  virtual void HandlePragma(
+                              Preprocessor &PP, 
+                              PragmaIntroducerKind
+                              Introducer,
+                              Token &FirstToken
+                           ); {}
+}
+
+</code></pre>
+<p>Parsing of the pragma happens inside <code class='inline prettyprint'>HandlePragma()</code> method.</p>
+</div>
+      <div class='step' >
+    
+<p><code class='inline prettyprint'>llvm/tools/clang/lib/Parse/ParsePragma.cpp</code> contains various examples.</p>
+<pre><code class='prettyprint '>// clang::Parser::ParseCompoundStatementBody
+// clang::Parser::ParseTopLevelDecl
+// both call HandlePragmaUnused 
+// defined in llvm/tools/clang/lib/Parse/ParsePragma.cpp
+
+void Parser::HandlePragmaUnused() {
+   assert(Tok.is(tok::annot_pragma_unused));
+   SourceLocation UnusedLoc = ConsumeToken();
+
+   // ActOnPragmaUnused defined in Sem
+   Actions.ActOnPragmaUnused(Tok, getCurScope(), UnusedLoc);
+   ConsumeToken(); // The argument token.
+ }
+
+</code></pre></div>
+      <div class='step' >
+    
+<h2>Semantic Analysis</h2>
+
+<p>llvm/tools/clang/lib/Sema/SemaAttr.cpp</p>
+</div>
+      <div class='step' >
+    <pre><code class='prettyprint '>
+Sema::ActOnPragmaUnused(
+                        const Token &IdTok, 
+                        Scope *curScope,
+                        SourceLocation PragmaLoc
+                        ) {}
+
+</code></pre>
+<p>This is where they check that:</p>
+
+<ol>
+<li>the variable exists</li>
+<li>only variable can be argument.</li>
+<li>variable used but marked unused. </li>
+<li>Store information in a vector</li>
+</ol>
+
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
