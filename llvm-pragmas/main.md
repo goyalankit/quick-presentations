@@ -86,3 +86,10 @@ This is where they check that:
 2. only variable can be argument.
 3. variable used but marked unused. 
 4. Store information in a vector
+
+---
+
+### References
+
+1. `http://llvm.org/devmtg/2013-04/pellegrini-slides.pdf`
+
