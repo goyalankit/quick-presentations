@@ -89,6 +89,16 @@ This is where they check that:
 
 ---
 
+LLVM has no knowledge of pragmas. Clang passes them on in form of
+metadata.
+
+### ivdep pragma implementation
+
+http://lists.cs.uiuc.edu/pipermail/cfe-dev/attachments/20130305/17027ddc/attachment-0001.obj
+http://clang-developers.42468.n3.nabble.com/Emitting-loop-metadata-in-codegen-td4030580.html
+
+---
+
 ### References
 
 1. `http://llvm.org/devmtg/2013-04/pellegrini-slides.pdf`
