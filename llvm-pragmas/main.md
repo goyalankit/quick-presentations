@@ -99,6 +99,15 @@ http://clang-developers.42468.n3.nabble.com/Emitting-loop-metadata-in-codegen-td
 
 ---
 
+lvm/lib/Transforms/Vectorize/LoopVectorize.cpp
+
+You create hints in the constructor using metadata.
+```
+925 getHints() // gets the hints from metadata.
+```
+
+---
+
 ### References
 
 1. `http://llvm.org/devmtg/2013-04/pellegrini-slides.pdf`
